@@ -9,7 +9,8 @@ packages:
   -- TODO fix when reflex-dom is on 9.2.2
   -- composite-reflex/
   composite-swagger/
-  example/
+  -- TODO fix when ekg-json is fixed
+  -- example/
 
 source-repository-package
   type: git

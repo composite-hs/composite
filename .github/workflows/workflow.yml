@@ -17,4 +17,5 @@ jobs:
           ghc-version: '9.2.2'
           enable-stack: false
       - run: cabal v2-update
+      - run: cabal v2-build all
       - run: cabal v2-test all
