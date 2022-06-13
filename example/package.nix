@@ -33,7 +33,7 @@ mkDerivation {
     servant-swagger-ui swagger2 text vinyl warp
   ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferHealth/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "It's a server!";
   license = lib.licenses.bsd3;
 }

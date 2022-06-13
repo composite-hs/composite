@@ -2,7 +2,7 @@ name:                composite-aeson-path
 version:             0.8.0.0
 synopsis:            Formatting data for the path library.
 description:         JsonFormat for Path.
-homepage:            https://github.com/ConferOpenSource/composite#readme
+homepage:            https://github.com/composite-hs/composite#readme
 license:             BSD3
 author:              Confer Health, Inc
 maintainer:          oss@vitalbio.com

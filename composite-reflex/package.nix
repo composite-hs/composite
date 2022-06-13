@@ -12,7 +12,7 @@ mkDerivation {
   ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "Utilities for using composite records and corecords with Reflex";
   license = lib.licenses.bsd3;
 }

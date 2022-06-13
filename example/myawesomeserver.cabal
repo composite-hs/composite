@@ -9,10 +9,10 @@ version:        0.0.2
 synopsis:       It's a server!
 description:    Example for usage of composite.
 category:       Records
-homepage:       https://github.com/ConferHealth/composite#readme
+homepage:       https://github.com/composite-hs/composite#readme
 author:         Confer Health, Inc.
 maintainer:     oss@confer.health
-copyright:      2017 Confer Health, Inc.
+copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 license:        BSD3
 build-type:     Simple
 

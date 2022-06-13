@@ -4,14 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 26a8d0b77464109e8126f6a55e983144a3751232267e370afd6cf49a4b93964c
+-- hash: 72f730d9ac81fcbf72f9283c80d2f2d1a14c7bce0fe9f10b4cb15a920dcb685f
 
 name:           composite-ekg
 version:        0.8.0.0
 synopsis:       EKG Metrics for Vinyl records
 description:    Integration between EKG and Vinyl records allowing records holding registered metrics to be easily constructed from a type declaration.
 category:       Records
-homepage:       https://github.com/ConferOpenSource/composite#readme
+homepage:       https://github.com/composite-hs/composite#readme
 author:         Confer Health, Inc
 maintainer:     oss@vitalbio.com
 copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences

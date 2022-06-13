@@ -4,14 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e9a07aa1f023040725900891f055198ed341827aa2bce1a988462c49d84a6e3c
+-- hash: 7a808162c2ab7874566308873c901837bb6a062d976d014c05185a0ce6fee637
 
 name:           composite-aeson-refined
 version:        0.8.0.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records
-homepage:       https://github.com/ConferOpenSource/composite#readme
+homepage:       https://github.com/composite-hs/composite#readme
 author:         Confer Health, Inc
 maintainer:     oss@vitalbio.com
 copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences

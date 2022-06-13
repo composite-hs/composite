@@ -2,7 +2,7 @@ name:                composite-aeson-refined
 version:             0.8.0.0
 synopsis:            composite-aeson support for Refined from the refined package
 description:         JsonFormat and DefaultJsonFormat for Refined
-homepage:            https://github.com/ConferOpenSource/composite#readme
+homepage:            https://github.com/composite-hs/composite#readme
 license:             BSD3
 author:              Confer Health, Inc
 maintainer:          oss@vitalbio.com

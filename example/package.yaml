@@ -2,11 +2,11 @@ name:                myawesomeserver
 version:             0.0.2
 synopsis:            It's a server!
 description:         Example for usage of composite.
-homepage:            https://github.com/ConferHealth/composite#readme
+homepage:            https://github.com/composite-hs/composite#readme
 license:             BSD3
 author:              Confer Health, Inc.
 maintainer:          oss@confer.health
-copyright:           2017 Confer Health, Inc.
+copyright:           2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 category:            Records
 
 default-extensions:

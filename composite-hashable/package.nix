@@ -6,7 +6,7 @@ mkDerivation {
   libraryHaskellDepends = [ base composite-base hashable ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "Orphan hashable instances";
   license = lib.licenses.bsd3;
 }

@@ -2,7 +2,7 @@ name:                composite-swagger
 version:             0.8.0.0
 synopsis:            Swagger for Vinyl records
 description:         Integration between Swagger and Vinyl records allowing easily derivable/explicit Swagger definitions for records.
-homepage:            https://github.com/ConferOpenSource/composite#readme
+homepage:            https://github.com/composite-hs/composite#readme
 license:             BSD3
 author:              Dan Fithian
 maintainer:          oss@vitalbio.com

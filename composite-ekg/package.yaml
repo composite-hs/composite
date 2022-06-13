@@ -2,7 +2,7 @@ name:                composite-ekg
 version:             0.8.0.0
 synopsis:            EKG Metrics for Vinyl records
 description:         Integration between EKG and Vinyl records allowing records holding registered metrics to be easily constructed from a type declaration.
-homepage:            https://github.com/ConferOpenSource/composite#readme
+homepage:            https://github.com/composite-hs/composite#readme
 license:             BSD3
 author:              Confer Health, Inc
 maintainer:          oss@vitalbio.com
