@@ -8,7 +8,7 @@ import Data.Profunctor.Product ((***!))
 import qualified Data.Profunctor.Product as PP
 import Data.Proxy (Proxy(Proxy))
 import GHC.TypeLits (KnownSymbol, symbolVal)
-#if MIN_VERSION_opaleye(0,9,2)
+#if MIN_VERSION_opaleye(0,8,0)
 import Opaleye (Field, requiredTableField, optionalTableField)
 import Opaleye.Internal.Table (TableFields)
 #else
@@ -16,7 +16,7 @@ import Opaleye (Column, required, optional)
 import Opaleye.Internal.Table (TableProperties)
 #endif
 
-#if MIN_VERSION_opaleye(0,9,2)
+#if MIN_VERSION_opaleye(0,8,0)
 -- |Helper typeclass which picks which of 'requiredTableField' or 'optionalTableField' to use for a pair of write column type and read column type.
 --
 -- @DefaultRecTableField (Maybe (Field a)) (Field a)@ uses 'optionalTableField'.
@@ -44,7 +44,7 @@ instance DefaultRecTableField (Column a) (Column a) where
   defaultRecTableField = required
 #endif
 
-#if MIN_VERSION_opaleye(0,9,2)
+#if MIN_VERSION_opaleye(0,8,0)
 -- |Type class for producing a default 'TableFields' schema for some expected record types. 'requiredTableField' and 'optionalTableField' are chosen automatically and the
 -- column is named after the record fields.
 --
