@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1.0
+
+* Support GHC 9.2.2 and 8.7.10
+
 ## 0.8.0.0
 
 * Split composite-base from the rest of the project
