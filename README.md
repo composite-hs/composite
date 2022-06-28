@@ -1,3 +1,5 @@
+> :warning: **This project has moved to https://github.com/composite-hs.**
+
 ## composite
 
 [![Build status](https://github.com/composite-hs/composite/actions/workflows/workflow.yml/badge.svg)](https://github.com/composite-hs/composite/actions/workflows/workflow.yml)

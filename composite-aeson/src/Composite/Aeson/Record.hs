@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Aeson.Record
   ( ToJsonField(..), FromJsonField(..), JsonField(..)
   , field, field', fromField, fromField', toField, toField'
@@ -20,8 +21,12 @@ import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, review, view)
 import Control.Monad (join)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
+#if MIN_VERSION_aeson(2,0,0)
 import qualified Data.Aeson.Key as Aeson.Key
 import qualified Data.Aeson.KeyMap as Aeson.KeyMap
+#else
+import qualified Data.HashMap.Strict as HM
+#endif
 import Data.Functor.Contravariant (Contravariant, contramap)
 import Data.Functor.Identity (Identity(Identity))
 import Data.Proxy (Proxy(Proxy))
@@ -186,7 +191,11 @@ instance RecordToJsonObject '[] where
 
 instance forall s a rs. (KnownSymbol s, RecordToJsonObject rs) => RecordToJsonObject (s :-> a ': rs) where
   recordToJsonObject (ToJsonField aToField :& fs) (Identity a :& as) =
+#if MIN_VERSION_aeson(2,0,0)
     maybe id (Aeson.KeyMap.insert (Aeson.Key.fromString . symbolVal $ (Proxy :: Proxy s))) (aToField a) $
+#else
+    maybe id (HM.insert (pack . symbolVal $ (Proxy :: Proxy s))) (aToField a) $
+#endif
       recordToJsonObject fs as
 
 -- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recordToJsonObject' fmt@

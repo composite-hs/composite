@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f6dd2325814418044b4c684cfe05f6b088390d5f6bc27552491342a50a3ea66a
+-- hash: de356f95bfa635590b4464d672b95519f8f3765e32c8961f47f81de4eef67b82
 
 name:           composite-hashable
-version:        0.8.0.0
+version:        0.8.1.0
 synopsis:       Orphan hashable instances.
 description:    Hashable instance for (:->) and Record.
 category:       Records
