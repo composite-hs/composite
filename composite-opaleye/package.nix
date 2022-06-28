@@ -17,7 +17,7 @@ mkDerivation {
     vinyl
   ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "Opaleye SQL for Vinyl records";
   license = lib.licenses.bsd3;
 }

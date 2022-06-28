@@ -2,10 +2,25 @@ packages:
   composite-aeson/
   composite-aeson-path/
   composite-aeson-refined/
-  composite-base/
   composite-binary/
+  composite-ekg/
   composite-hashable/
   composite-opaleye/
   -- TODO fix when reflex-dom is on 9.2.2
   -- composite-reflex/
   composite-swagger/
+  -- TODO fix when ekg-json is fixed
+  -- example/
+
+source-repository-package
+  type: git
+  location: https://github.com/composite-hs/composite-base.git
+  tag: develop
+
+source-repository-package
+  type: git
+  location: https://github.com/tibbe/ekg-core
+  tag: ddf7c1eb6d487b0e17ac1ce8428b6d9daea2f671
+  --sha256: 1l27j2968hyg49p10j30j1561rsams6pjmmmwixx9wv32vxpz7kj
+
+allow-newer: all

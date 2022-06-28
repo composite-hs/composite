@@ -16,7 +16,7 @@ mkDerivation {
     lens QuickCheck swagger2 template-haskell text vinyl
   ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "Swagger for Vinyl records";
   license = lib.licenses.bsd3;
 }

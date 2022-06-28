@@ -22,7 +22,7 @@ mkDerivation {
     unordered-containers vector vinyl
   ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "JSON for Vinyl records";
   license = lib.licenses.bsd3;
 }

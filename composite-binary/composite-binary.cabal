@@ -4,14 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f4dffa2b16365e1ad7fd8457dde7fbb2e897d5b182dc1bd62351227c5c9b6bcf
+-- hash: e34a0b76cf29df0fb375ba843bb22639a80cbc9e987123adfcad2d2c23181c63
 
 name:           composite-binary
 version:        0.8.0.0
 synopsis:       Orphan binary instances.
 description:    Binary instance for (:->) and Record.
 category:       Records
-homepage:       https://github.com/ConferOpenSource/composite#readme
+homepage:       https://github.com/composite-hs/composite#readme
 author:         Confer Health, Inc
 maintainer:     oss@vitalbio.com
 copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences

@@ -2,9 +2,11 @@
 
 ## composite
 
-[![Build Status](https://travis-ci.com/ConferOpenSource/composite.svg?branch=master)](https://travis-ci.com/ConferOpenSource/composite)
+[![Build status](https://github.com/composite-hs/composite/actions/workflows/workflow.yml/badge.svg)](https://github.com/composite-hs/composite/actions/workflows/workflow.yml)
 
 Composite is a group of libraries focusing on practical uses of composite records, in particular [Vinyl](https://github.com/VinylRecords/Vinyl/), such as querying records from a database and converting them to JSON. These libraries are based on the excellent [Frames](https://github.com/acowley/Frames) style use of Vinyl records, though composite implements its own derived from Frames to make for a smaller dependency graph, as Frames is a full CSV parsing/printing and data manipulation library.
+
+Core library is located at https://github.com/composite-hs/composite-base.
 
 ### `composite-aeson`
 
@@ -40,10 +42,6 @@ aliceJson = toJsonWithFormat userFormat alice
 ### `composite-aeson-refined`
 
 `composite-aeson` support for the [refined](https://hackage.haskell.org/package/refined) library.
-
-### `composite-base`
-
-Definitions shared by the other composite libraries or generally useful when using Vinyl records. Includes some Template Haskell splices to generate various optics for records, as well as a specialization of `MonadReader` which works on a context record, providing general environment for a computation.
 
 ### `composite-binary`
 

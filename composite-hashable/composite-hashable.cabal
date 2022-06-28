@@ -4,14 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 350dba1d289752afceac3b7155578ef1471dbb95ef3a60998216a06fe5cba6d2
+-- hash: f6dd2325814418044b4c684cfe05f6b088390d5f6bc27552491342a50a3ea66a
 
 name:           composite-hashable
 version:        0.8.0.0
 synopsis:       Orphan hashable instances.
 description:    Hashable instance for (:->) and Record.
 category:       Records
-homepage:       https://github.com/ConferOpenSource/composite#readme
+homepage:       https://github.com/composite-hs/composite#readme
 author:         Confer Health, Inc
 maintainer:     oss@vitalbio.com
 copyright:      2017 Confer Health, Inc., 2021 Vital Biosciences

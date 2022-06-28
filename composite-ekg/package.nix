@@ -10,7 +10,7 @@ mkDerivation {
   ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  homepage = "https://github.com/composite-hs/composite#readme";
   description = "EKG Metrics for Vinyl records";
   license = lib.licenses.bsd3;
 }
