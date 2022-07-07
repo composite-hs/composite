@@ -3,6 +3,7 @@ module Composite.Opaleye.TH where
 
 import Control.Lens ((<&>))
 import qualified Data.ByteString.Char8 as BSC8
+import Data.List.Split (splitOn)
 import Data.Maybe (fromMaybe)
 import Data.Profunctor.Product.Default (Default, def)
 import Data.Traversable (for)
@@ -26,6 +27,11 @@ import Opaleye
   )
 import Opaleye.Internal.PGTypes (IsSqlType, showSqlType, literalColumn)
 import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
+
+getLastComponent :: String -> String
+getLastComponent str = case reverse (splitOn "." str) of
+  x:_ -> x
+  [] -> str
 
 -- |Derive the various instances required to make a Haskell enumeration map to a PostgreSQL @enum@ type.
 --
@@ -67,7 +73,7 @@ import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 --       'fromField' f mbs = do
 --         tname <- 'typename' f
 --         case mbs of
---           _ | tname /= "myenum" -> 'returnError' 'Incompatible' f ""
+--           _ | 'getLastComponent' ('BSC8.unpack' tname) /= "myenum" -> 'returnError' 'Incompatible' f ""
 --           Just "foo" -> pure MyFoo
 --           Just "bar" -> pure MyBar
 --           Just other -> 'returnError' 'ConversionFailed' f ("Unexpected myschema.myenum value: " <> 'BSC8.unpack' other)
@@ -87,6 +93,7 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
   let sqlTypeName = mkName $ "PG" ++ nameBase hsName
       sqlType = conT sqlTypeName
       hsType = conT hsName
+      unqualSqlName = getLastComponent sqlName
 
   rawCons <- reify hsName >>= \ case
     TyConI (DataD _cxt _name _tvVarBndrs _maybeKind cons _derivingCxt) ->
@@ -133,7 +140,7 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
     let bodyCase = caseE (varE mbs) $
           [ match
               wildP
-              (guardedB [ normalGE [| $(varE tname) /= $(lift sqlName) |]
+              (guardedB [ normalGE [| getLastComponent (BSC8.unpack $(varE tname)) /= $(lift unqualSqlName) |]
                                    [| returnError Incompatible $(varE field) "" |] ])
               []
           ] ++
