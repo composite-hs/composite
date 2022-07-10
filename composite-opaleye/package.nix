@@ -1,6 +1,6 @@
 { mkDerivation, base, bytestring, composite-base, hpack, hspec
 , lens, lib, opaleye, postgresql-simple, product-profunctors
-, profunctors, QuickCheck, template-haskell, text, vinyl
+, profunctors, QuickCheck, split, template-haskell, text, vinyl
 }:
 mkDerivation {
   pname = "composite-opaleye";
@@ -8,13 +8,13 @@ mkDerivation {
   src = ./.;
   libraryHaskellDepends = [
     base bytestring composite-base lens opaleye postgresql-simple
-    product-profunctors profunctors template-haskell text vinyl
+    product-profunctors profunctors split template-haskell text vinyl
   ];
   libraryToolDepends = [ hpack ];
   testHaskellDepends = [
     base bytestring composite-base hspec lens opaleye postgresql-simple
-    product-profunctors profunctors QuickCheck template-haskell text
-    vinyl
+    product-profunctors profunctors QuickCheck split template-haskell
+    text vinyl
   ];
   prePatch = "hpack";
   homepage = "https://github.com/composite-hs/composite#readme";
