@@ -93,7 +93,7 @@ instance Applicative SuccessOrFail where
   Fail    f <*> _         = Fail    f
 
 instance Monad SuccessOrFail where
-  return = Success
+  return = pure
   Success a >>= k = k a
   Fail    f >>= _ = Fail f
 #if MIN_VERSION_base(4,13,0)
