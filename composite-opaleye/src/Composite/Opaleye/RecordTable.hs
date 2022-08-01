@@ -9,7 +9,7 @@ import qualified Data.Profunctor.Product as PP
 import Data.Proxy (Proxy(Proxy))
 import GHC.TypeLits (KnownSymbol, symbolVal)
 #if MIN_VERSION_opaleye(0,8,0)
-import Opaleye (Field, requiredTableField, optionalTableField)
+import Opaleye (Field_, requiredTableField, optionalTableField)
 import Opaleye.Internal.Table (TableFields)
 #else
 import Opaleye (Column, required, optional)
