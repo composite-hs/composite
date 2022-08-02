@@ -2,6 +2,7 @@
 
 ## 0.8.1.0
 
+* Fixed GHC warnings for 9.0 and above
 * Support GHC 9.2.2 and 8.7.10
 
 ## 0.8.0.0
