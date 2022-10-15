@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-swagger";
-  version = "0.8.1.0";
+  version = "0.8.2.0";
   src = ./.;
   libraryHaskellDepends = [
     base composite-base insert-ordered-containers lens swagger2
