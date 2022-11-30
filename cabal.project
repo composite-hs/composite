@@ -23,4 +23,7 @@ source-repository-package
   tag: ddf7c1eb6d487b0e17ac1ce8428b6d9daea2f671
   --sha256: 1l27j2968hyg49p10j30j1561rsams6pjmmmwixx9wv32vxpz7kj
 
+package postgresql-libpq
+  flags: +use-pkg-config
+
 allow-newer: all
