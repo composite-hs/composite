@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 42d5f38e6c5b0cd026f6cb14d3e5f549a386fd156ed673714d6de301669da0cc
+-- hash: 3a51b44deb384440cef77dc8bcbaafaf88b9c7360e1c3d798ed55c934cc4404f
 
 name:           composite-aeson-path
-version:        0.8.2.0
+version:        0.8.2.1
 synopsis:       Formatting data for the path library.
 description:    JsonFormat for Path.
 category:       Records

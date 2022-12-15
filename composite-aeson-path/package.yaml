@@ -1,5 +1,5 @@
 name:                composite-aeson-path
-version:             0.8.2.0
+version:             0.8.2.1
 synopsis:            Formatting data for the path library.
 description:         JsonFormat for Path.
 homepage:            https://github.com/composite-hs/composite#readme

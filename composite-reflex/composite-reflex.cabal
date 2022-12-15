@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 43300c93eab17843410b8290372e30da8cba1a34a57a7fac115ffc02c7762527
+-- hash: 24180d257ec61e65a692e9bf31691a5cbc1fed76ae07eb5409765ae9668545a3
 
 name:           composite-reflex
-version:        0.8.2.0
+version:        0.8.2.1
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records

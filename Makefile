@@ -15,5 +15,3 @@ reallyclean:
 
 sdist: reallyclean build
 	stack sdist
-	mkdir -p _sdists
-	cp */.stack-work/dist/*/*/*.tar.gz _sdists

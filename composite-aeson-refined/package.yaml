@@ -1,5 +1,5 @@
 name:                composite-aeson-refined
-version:             0.8.2.0
+version:             0.8.2.1
 synopsis:            composite-aeson support for Refined from the refined package
 description:         JsonFormat and DefaultJsonFormat for Refined
 homepage:            https://github.com/composite-hs/composite#readme

@@ -3,7 +3,7 @@
 }:
 mkDerivation {
   pname = "composite-aeson-refined";
-  version = "0.8.2.0";
+  version = "0.8.2.1";
   src = ./.;
   libraryHaskellDepends = [
     aeson-better-errors base composite-aeson mtl refined

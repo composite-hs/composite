@@ -1,5 +1,5 @@
 name:                composite-hashable
-version:             0.8.2.0
+version:             0.8.2.1
 synopsis:            Orphan hashable instances.
 description:         Hashable instance for (:->) and Record.
 homepage:            https://github.com/composite-hs/composite#readme
@@ -11,7 +11,7 @@ category:            Records
 
 dependencies:
   - base >= 4.12 && < 5
-  - hashable >= 1.1.1 && < 1.4
+  - hashable >= 1.1.1 && < 1.5
   - composite-base >= 0.8 && < 0.9
 
 default-extensions:

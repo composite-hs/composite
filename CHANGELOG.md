@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.2.1
+
+* Bumped dependency on hashable
+
 ## 0.8.2.0
 
 * Fixed opaleye enum generation
