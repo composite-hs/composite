@@ -123,6 +123,7 @@ fromOptionalField' i = FromJsonField f
   where
     f k = join <$> ABE.keyMay k (ABE.perhaps i)
 
+-- |Given a default @a@ value to use if the field is missing and a parser to use if the field is present, produce a @'FromJsonField' e (s :-> a)@.
 defaultValFromOptionalField :: forall s a e. a -> JsonFormat e a -> FromJsonField e (s :-> a)
 defaultValFromOptionalField default_ = fmap (Val . fromMaybe default_) . fromOptionalField' . fromJsonWithFormat
 
@@ -134,11 +135,13 @@ toOptionalField o = ToJsonField (fmap o . view _Wrapped')
 toOptionalField' :: (a -> Aeson.Value) -> ToJsonField (Maybe a)
 toOptionalField' o = ToJsonField (fmap o)
 
+-- |Promote an ABE value parser to one which can be used to parse a field of a sparse JSON record using 'maybeRecordFromJson'.
 valMaybeParser :: forall s a e. ABE.Parse e a -> (FromJsonField e :. Maybe) (s :-> a)
 valMaybeParser r =
   let r' str = fmap Val <$> ABE.keyMay str r
    in Compose (FromJsonField r')
 
+-- |Promote a value parser to one which can be used to parse a field of a sparse JSON record using 'maybeRecordFromJson'.
 valMaybeField :: forall s a e. JsonFormat e a -> (FromJsonField e :. Maybe) (s :-> a)
 valMaybeField (JsonFormat (JsonProfunctor _ r)) = valMaybeParser r
 
