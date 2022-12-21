@@ -1,5 +1,6 @@
 module Composite.Aeson
   ( module Composite.Aeson.Base
+  , module Composite.Aeson.Compat
   , module Composite.Aeson.CoRecord
   , module Composite.Aeson.Enum
   , module Composite.Aeson.Formats.DateTime
@@ -10,6 +11,7 @@ module Composite.Aeson
   ) where
 
 import Composite.Aeson.Base
+import Composite.Aeson.Compat
 import Composite.Aeson.CoRecord
 import Composite.Aeson.Enum
 import Composite.Aeson.Formats.DateTime

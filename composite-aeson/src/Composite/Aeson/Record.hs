@@ -1,22 +1,25 @@
 {-# LANGUAGE CPP #-}
 module Composite.Aeson.Record
   ( ToJsonField(..), FromJsonField(..), JsonField(..)
-  , field, field', fromField, fromField', toField, toField'
-  , optionalField, optionalField', fromOptionalField, fromOptionalField', toOptionalField, toOptionalField'
+  , field, valField, field', fromField, valFromField, fromField', toField, toField'
+  , optionalField, valOptionalField, optionalField', fromOptionalField, valFromOptionalField, fromOptionalField', toOptionalField, toOptionalField', defaultValFromOptionalField
   , JsonFormatRecord, ToJsonFormatRecord, FromJsonFormatRecord, zipJsonFormatRecord, toJsonFormatRecord, fromJsonFormatRecord
   , DefaultJsonFormatRecord, defaultJsonFormatRecord
   , RecordToJsonObject, recordToJsonObject, recordToJson
   , RecordFromJson, recordFromJson
   , recordJsonFormat
+  , valMaybeParser, valMaybeField
+  , MaybeRecordFromJson, maybeRecordFromJson
   ) where
 
 import Composite.Aeson.Base
   ( JsonProfunctor(JsonProfunctor)
   , JsonFormat(JsonFormat)
+  , fromJsonWithFormat
   , wrappedJsonFormat
   )
 import Composite.Aeson.Formats.Default (DefaultJsonFormat(defaultJsonFormat))
-import Composite.Record ((:->))
+import Composite.Record ((:->)(Val))
 import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, review, view)
 import Control.Monad (join)
 import qualified Data.Aeson as Aeson
@@ -29,9 +32,11 @@ import qualified Data.HashMap.Strict as HM
 #endif
 import Data.Functor.Contravariant (Contravariant, contramap)
 import Data.Functor.Identity (Identity(Identity))
+import Data.Maybe (fromMaybe)
 import Data.Proxy (Proxy(Proxy))
 import Data.Text (Text, pack)
 import Data.Vinyl (RApply, RMap, Rec((:&), RNil), rmap, rzipWith)
+import Data.Vinyl.Functor (Compose (..), (:.))
 import GHC.TypeLits (KnownSymbol, symbolVal)
 
 -- |Function to encode a single field of a record, possibly choosing to elide the field with @Nothing@.
@@ -54,6 +59,10 @@ data JsonField e a = JsonField (a -> Maybe Aeson.Value) (Text -> ABE.Parse e a)
 field :: (Wrapped a', Unwrapped a' ~ a) => JsonFormat e a -> JsonField e a'
 field fmt = field' (wrappedJsonFormat fmt)
 
+-- |Specialized type for 'field' so we can specify the 'Val' symbol.
+valField :: forall s a e. JsonFormat e a -> JsonField e (s :-> a)
+valField = field
+
 -- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @a@ which fails if the field is missing and never elides the field.
 field' :: JsonFormat e a -> JsonField e a
 field' (JsonFormat (JsonProfunctor o i)) = JsonField (Just . o) (`ABE.key` i)
@@ -61,6 +70,10 @@ field' (JsonFormat (JsonProfunctor o i)) = JsonField (Just . o) (`ABE.key` i)
 -- |Given a parser for @'Unwrapped' a@, produce a @'FromField' e a@.
 fromField :: Wrapped a => ABE.Parse e (Unwrapped a) -> FromJsonField e a
 fromField = FromJsonField . flip ABE.key . fmap (review _Wrapped')
+
+-- |Specialized type for 'fromField' so we can specify the Val symbol.
+valFromField :: forall s a e. ABE.Parse e a -> FromJsonField e (s :-> a)
+valFromField = fromField
 
 -- |Given a parser for @a@, produce a @'FromField' e a@.
 fromField' :: ABE.Parse e a -> FromJsonField e a
@@ -82,6 +95,10 @@ optionalField (JsonFormat (JsonProfunctor o i)) =
     (fmap o . view _Wrapped')
     (\ k -> view (from _Wrapped') . join <$> ABE.keyMay k (ABE.perhaps i))
 
+-- |Specialized type for 'optionalField' so we can specify the 'Val' symbol.
+valOptionalField :: forall s a e. JsonFormat e a -> JsonField e (s :-> Maybe a)
+valOptionalField = optionalField
+
 -- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @Maybe a@ which substitutes @Nothing@ for either @null@ or missing field,
 -- and which elides the field on @Nothing@.
 optionalField' :: JsonFormat e a -> JsonField e (Maybe a)
@@ -96,11 +113,18 @@ fromOptionalField i = FromJsonField f
   where
     f k = view (from _Wrapped') . join <$> ABE.keyMay k (ABE.perhaps i)
 
+-- |Specialized type for 'fromOptionalField' so we can specify the 'Val' symbol.
+valFromOptionalField :: forall s a e. ABE.Parse e a -> FromJsonField e (s :-> Maybe a)
+valFromOptionalField = fromOptionalField
+
 -- |Given a parser for @a@, produce a @'FromField' e (Maybe a)@ which represents an optional field.
 fromOptionalField' :: ABE.Parse e a -> FromJsonField e (Maybe a)
 fromOptionalField' i = FromJsonField f
   where
     f k = join <$> ABE.keyMay k (ABE.perhaps i)
+
+defaultValFromOptionalField :: forall s a e. a -> JsonFormat e a -> FromJsonField e (s :-> a)
+defaultValFromOptionalField default_ = fmap (Val . fromMaybe default_) . fromOptionalField' . fromJsonWithFormat
 
 -- |Given an encoding function for some type @a@, produce a 'ToField' for fields of type @Maybe a@ which elides the field on @Nothing@.
 toOptionalField :: (Wrapped a', Unwrapped a' ~ Maybe a) => (a -> Aeson.Value) -> ToJsonField a'
@@ -109,6 +133,14 @@ toOptionalField o = ToJsonField (fmap o . view _Wrapped')
 -- |Given an encoding function for some type @a@, produce a 'ToField' for fields of type @Maybe a@ which elides the field on @Nothing@.
 toOptionalField' :: (a -> Aeson.Value) -> ToJsonField (Maybe a)
 toOptionalField' o = ToJsonField (fmap o)
+
+valMaybeParser :: forall s a e. ABE.Parse e a -> (FromJsonField e :. Maybe) (s :-> a)
+valMaybeParser r =
+  let r' str = fmap Val <$> ABE.keyMay str r
+   in Compose (FromJsonField r')
+
+valMaybeField :: forall s a e. JsonFormat e a -> (FromJsonField e :. Maybe) (s :-> a)
+valMaybeField (JsonFormat (JsonProfunctor _ r)) = valMaybeParser r
 
 -- |Type of a Vinyl record which describes how to map fields of a record to JSON and back.
 --
@@ -235,3 +267,16 @@ instance (KnownSymbol s, DefaultJsonFormat a, DefaultJsonFormatRecord rs) => Def
 
 instance DefaultJsonFormatRecord '[] where
   defaultJsonFormatRecord = RNil
+
+-- |Class to make a parser for a @Rec Maybe rs@ given a @Rec@ of parsers.
+class MaybeRecordFromJson rs where
+  maybeRecordFromJson :: Rec (FromJsonField e :. Maybe) rs -> ABE.Parse e (Rec Maybe rs)
+
+instance MaybeRecordFromJson '[] where
+  maybeRecordFromJson _ = pure RNil
+
+instance forall s a rs. (KnownSymbol s, MaybeRecordFromJson rs) => MaybeRecordFromJson (s :-> a ': rs) where
+  maybeRecordFromJson (Compose (FromJsonField aFromField) :& fs) =
+    (:&)
+      <$> aFromField (pack . symbolVal $ (Proxy :: Proxy s))
+      <*> maybeRecordFromJson fs

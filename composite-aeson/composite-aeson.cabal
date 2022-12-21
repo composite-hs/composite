@@ -22,6 +22,7 @@ library
   exposed-modules:
       Composite.Aeson
       Composite.Aeson.Base
+      Composite.Aeson.Compat
       Composite.Aeson.CoRecord
       Composite.Aeson.DateTimeFormatUtils
       Composite.Aeson.Enum

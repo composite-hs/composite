@@ -1,9 +1,10 @@
 module Composite.Aeson.Base
   ( ToJson(..), FromJson(..), JsonProfunctor(..), _JsonProfunctor, JsonFormat(..)
   , toJsonWithFormat, fromJsonWithFormat, parseJsonWithFormat, parseJsonWithFormat'
-  , dimapJsonFormat, jsonFormatWithIso, wrapJsonFormat, jsonFormatWithoutCustomError, wrappedJsonFormat
+  , dimapJsonFormat, jsonFormatWithIso, wrapJsonFormat, jsonFormatWithoutCustomError, wrappedJsonFormat, valJsonFormat
   ) where
 
+import Composite.Record ((:->))
 import Control.Lens (AnIso', Iso, _2, Wrapped(type Unwrapped), _Wrapped', _Wrapped, iso, over, withIso)
 import Control.Lens.TH (makeWrapped)
 import Control.Monad.Except (withExceptT)
@@ -132,3 +133,7 @@ jsonFormatWithIso i = withIso i dimapJsonFormat
 -- |Given a format for the value type inside some wrapper type @a@ which instances 'Wrapped', produce a format which works on the wrapper type.
 wrappedJsonFormat :: Wrapped a => JsonFormat e (Unwrapped a) -> JsonFormat e a
 wrappedJsonFormat = jsonFormatWithIso _Wrapped'
+
+-- |Specialized type for 'wrappedJsonFormat' so we can specify the 'Val' symbol.
+valJsonFormat :: forall s a e. JsonFormat e a -> JsonFormat e (s :-> a)
+valJsonFormat = wrappedJsonFormat
