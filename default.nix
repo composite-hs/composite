@@ -1,18 +1,34 @@
+{ nixpkgsSrc ? <nixpkgs>
+}:
+
+with builtins;
 let
-  packages = {
-    aeson         = import ./composite-aeson/package.nix;
-    aeson-refined = import ./composite-aeson-refined/package.nix;
-    ekg           = import ./composite-ekg/package.nix;
-    opaleye       = import ./composite-opaleye/package.nix;
-    reflex        = import ./composite-reflex/package.nix;
+  haskellNix = import (builtins.fetchTarball "https://github.com/input-output-hk/haskell.nix/archive/2f3ec7bbf2e790122ca276a4ab038bf2749c6c93.tar.gz") {};
+  pkgs = import nixpkgsSrc haskellNix.nixpkgsArgs;
+  project = pkgs.haskell-nix.cabalProject {
+    name = "refurb";
+    src = ./.;
+    cabalProject = readFile ./cabal.project;
+    compiler-nix-name = "ghc925";
+    index-state = "2022-12-01T00:00:00Z";
+    modules = [
+      {
+        packages.postgresql-libpq = {
+          preConfigure = ''
+            export PATH="${pkgs.pkg-config}/bin:$PATH"
+          '';
+          flags."use-pkg-config" = true;
+        };
+      }
+    ];
   };
-in
-  packages // {
-    overrides = self: super: {
-      composite-aeson         = self.callPackage packages.aeson {};
-      composite-aeson-refined = self.callPackage packages.aeson-refined {};
-      composite-ekg           = self.callPackage packages.ekg {};
-      composite-opaleye       = self.callPackage packages.opaleye {};
-      composite-reflex        = self.callPackage packages.reflex {};
+  shell = project.shellFor {
+    tools = {
+      cabal = "3.6.2.0";
     };
-  }
+    nativeBuildInputs = [
+      pkgs.pkg-config
+    ];
+    exactDeps = true;
+  };
+in { inherit project shell; }

@@ -5,10 +5,11 @@ module Composite.Opaleye.Update
 
 import Composite.Record ((:->)(Val), Rec((:&), RNil), Record)
 import Data.Functor.Identity (Identity(Identity))
+import Data.Kind (Type)
 
 -- |Typeclass which allows transformation of a record from its select form to neutral update form, which boils down to wrapping fields that have defaults
 -- with 'Just'.
-class RecordToUpdate (rs :: [*]) (ss :: [*]) where
+class RecordToUpdate (rs :: [Type]) (ss :: [Type]) where
   -- |Transform a @'Record' rs@ obtained from the database to a @'Record' ss@ representing an updated version of the row.
   --
   -- Opaleye's @runUpdate@ family of functions all take an update function of the type @columnsR -> columnsW@, which this function implements generically
@@ -31,4 +32,3 @@ instance RecordToUpdate rs ss => RecordToUpdate (r ': rs) (r ': ss) where
 instance RecordToUpdate rs ss => RecordToUpdate (s :-> a ': rs) (s :-> Maybe a ': ss) where
   recordToUpdate (Identity (Val a) :& rs) = Identity (Val (Just a)) :& recordToUpdate rs
   {-# INLINE recordToUpdate #-}
-

@@ -3,6 +3,7 @@ module Composite.Opaleye.ProductProfunctors where
 
 import Composite.Record ((:->)(Val), Rec((:&), RNil))
 import Data.Functor.Identity (Identity(Identity))
+import Data.Kind (Type)
 import Data.Profunctor (dimap)
 import Data.Profunctor.Product (ProductProfunctor, (***!))
 import qualified Data.Profunctor.Product as PP
@@ -14,9 +15,9 @@ import Data.Profunctor.Product.Default (Default(def))
 -- This is similar to the @pN@ functions on tuples provided by the @product-profunctors@ library.
 class ProductProfunctor p => PRec p rs where
   -- |Record fields @rs@ with the profunctor removed yielding the contravariant parameter. E.g. @PRecContra p '[p a b] ~ '[a]@
-  type PRecContra p rs :: [*]
+  type PRecContra p rs :: [Type]
   -- |Record fields @rs@ with the profunctor removed yielding the covariant parameter. E.g. @PRecContra p '[p a b] ~ '[a]@
-  type PRecCo     p rs :: [*]
+  type PRecCo     p rs :: [Type]
 
   -- |Traverse the record, transposing the profunctors @p@ within to the outside like 'traverse' does for Applicative effects.
   --
@@ -52,6 +53,3 @@ instance forall p s a b rsContra rsCo. (ProductProfunctor p, Default p a b, Defa
       step = def
       recur :: p (Rec Identity rsContra) (Rec Identity rsCo)
       recur = def
-
-
-

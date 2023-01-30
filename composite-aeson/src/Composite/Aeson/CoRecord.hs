@@ -12,6 +12,7 @@ import Composite.Record ((:->), Rec((:&), RNil), RecWithContext(rmapWithContext)
 import Data.Aeson (Value)
 import qualified Data.Aeson.BetterErrors as ABE
 import Data.Functor.Identity (Identity(Identity))
+import Data.Kind (Type)
 import Data.List.NonEmpty (NonEmpty)
 import Data.Maybe (catMaybes, fromMaybe, listToMaybe)
 import Data.Text (Text)
@@ -30,7 +31,7 @@ type FromJsonFormatField e rs = Rec (FromJson e) rs
 type JsonFormatField e rs = Rec (JsonFormat e) rs
 
 -- |Class which makes up a 'JsonFormatField' for some @rs@ where each @r ~ s :-> a@ by using the 'DefaultJsonFormat' instance for each @a@.
-class DefaultJsonFormatField (rs :: [*]) where
+class DefaultJsonFormatField (rs :: [Type]) where
   -- |Make up a 'JsonFormatField' for some @rs@ where each @r ~ s :-> a@ by using the 'DefaultJsonFormat' instance for each @a@.
   defaultJsonFormatField :: JsonFormatField e rs
 
@@ -42,7 +43,7 @@ instance forall s a rs. (DefaultJsonFormat a, DefaultJsonFormatField rs) => Defa
 
 -- |Make a @'Field' rs -> 'Value'@ given how to map the sum type to JSON along with a record with encoders for each value the field could have.
 fieldToJson
-  :: forall (rs :: [*]) r' (rs' :: [*]).
+  :: forall (rs :: [Type]) r' (rs' :: [Type]).
      ( rs ~ (r' ': rs'), RApply rs, RMap rs
      , RecApplicative rs, RecWithContext rs rs, RecordToList rs', ReifyNames rs )
   => SumStyle -> ToJsonFormatField rs -> Field rs -> Value
@@ -64,7 +65,7 @@ fieldToJson sumStyle fmts = sumToJson sumStyle o
 
 -- |Make a @'ABE.Parse' e (Field rs)@ given how to map the sum type from JSON along with a record with decoders for each value the field could have.
 fieldFromJson
-  :: forall (rs :: [*]) r' (rs' :: [*]) e.
+  :: forall (rs :: [Type]) r' (rs' :: [Type]) e.
      ( rs ~ (r' ': rs'), RApply rs, RMap rs
      , RecApplicative rs, RecWithContext rs rs, RecordToList rs', ReifyNames rs )
   => SumStyle -> FromJsonFormatField e rs -> ABE.Parse e (Field rs)
@@ -82,7 +83,7 @@ fieldFromJson sumStyle fmts = sumFromJson sumStyle i
 
 -- |Make a @'JsonFormat' e (Field rs)@ given how to map the sum type to JSON along with a record with formatters for each value the field could have.
 fieldJsonFormat
-  :: forall (rs :: [*]) r' (rs' :: [*]) e.
+  :: forall (rs :: [Type]) r' (rs' :: [Type]) e.
      ( rs ~ (r' ': rs'), RApply rs, RMap rs
      , RecApplicative rs, RecWithContext rs rs, RecordToList rs', ReifyNames rs )
   => SumStyle -> JsonFormatField e rs -> JsonFormat e (Field rs)
@@ -108,4 +109,3 @@ fieldJsonFormat sumStyle fmts = jsonSumFormat sumStyle o i
         oneCase :: forall r. r ∈ rs => ((,) Text :. JsonFormat e) r -> Const (Text, FromJson e (Field rs)) r
         oneCase (Compose (name, JsonFormat (JsonProfunctor _ ia))) =
           Const (name, FromJson (CoVal . Identity <$> ia))
-
