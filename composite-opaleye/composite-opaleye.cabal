@@ -1,9 +1,5 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.7.
---
--- see: https://github.com/sol/hpack
-
 name:           composite-opaleye
 version:        0.8.2.1
 synopsis:       Opaleye SQL for Vinyl records
@@ -21,6 +17,7 @@ library
       Composite.Opaleye
       Composite.Opaleye.ProductProfunctors
       Composite.Opaleye.RecordTable
+      Composite.Opaleye.RecToFields
       Composite.Opaleye.TH
       Composite.Opaleye.Update
       Composite.Opaleye.Util
