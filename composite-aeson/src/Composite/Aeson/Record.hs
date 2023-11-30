@@ -2,6 +2,7 @@
 module Composite.Aeson.Record
   ( ToJsonField(..), FromJsonField(..), JsonField(..)
   , field, valField, field', fromField, valFromField, fromField', toField, toField'
+  , defaultField, valDefaultField, defaultField'
   , optionalField, valOptionalField, optionalField', fromOptionalField, valFromOptionalField, fromOptionalField', toOptionalField, toOptionalField', defaultValFromOptionalField
   , JsonFormatRecord, ToJsonFormatRecord, FromJsonFormatRecord, zipJsonFormatRecord, toJsonFormatRecord, fromJsonFormatRecord
   , DefaultJsonFormatRecord, defaultJsonFormatRecord
@@ -66,6 +67,26 @@ valField = field
 -- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @a@ which fails if the field is missing and never elides the field.
 field' :: JsonFormat e a -> JsonField e a
 field' (JsonFormat (JsonProfunctor o i)) = JsonField (Just . o) (`ABE.key` i)
+
+-- | Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @a@ which substitutes a default value if the field is missing
+--  and never elides the field.
+defaultField :: (Wrapped a', Unwrapped a' ~ a) => a -> JsonFormat e a -> JsonField e a'
+defaultField default_ (JsonFormat (JsonProfunctor o i)) =
+  JsonField
+    (Just . o . view _Wrapped')
+    (\k -> view (from _Wrapped') . fromMaybe default_ . join <$> ABE.keyMay k (ABE.perhaps i))
+
+-- | Specialized type for 'defaultField' so we can specify the 'Val' symbol.
+valDefaultField :: forall s a e. a -> JsonFormat e a -> JsonField e (s :-> a)
+valDefaultField = defaultField
+
+-- | Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @a@ which substitutes a default value if the field is missing
+--  and never elides the field.
+defaultField' :: a -> JsonFormat e a -> JsonField e a
+defaultField' default_ (JsonFormat (JsonProfunctor o i)) =
+  JsonField
+    (Just . o)
+    (\k -> fromMaybe default_ . join <$> ABE.keyMay k (ABE.perhaps i))
 
 -- |Given a parser for @'Unwrapped' a@, produce a @'FromField' e a@.
 fromField :: Wrapped a => ABE.Parse e (Unwrapped a) -> FromJsonField e a
