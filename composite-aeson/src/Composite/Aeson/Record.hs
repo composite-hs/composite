@@ -2,7 +2,7 @@
 module Composite.Aeson.Record
   ( ToJsonField(..), FromJsonField(..), JsonField(..)
   , field, valField, field', fromField, valFromField, fromField', toField, toField'
-  , defaultField, valDefaultField, defaultField',
+  , defaultField, valDefaultField, defaultField'
   , optionalField, valOptionalField, optionalField', fromOptionalField, valFromOptionalField, fromOptionalField', toOptionalField, toOptionalField', defaultValFromOptionalField
   , JsonFormatRecord, ToJsonFormatRecord, FromJsonFormatRecord, zipJsonFormatRecord, toJsonFormatRecord, fromJsonFormatRecord
   , DefaultJsonFormatRecord, defaultJsonFormatRecord
