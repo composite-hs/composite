@@ -1,7 +1,7 @@
 cabal-version: 1.12
 
 name:           composite-opaleye
-version:        0.8.2.1
+version:        0.8.2.2
 synopsis:       Opaleye SQL for Vinyl records
 description:    Integration between Vinyl records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 category:       Records

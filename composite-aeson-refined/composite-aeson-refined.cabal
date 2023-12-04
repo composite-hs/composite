@@ -1,13 +1,7 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.7.
---
--- see: https://github.com/sol/hpack
---
--- hash: 2c6376add06c5f1da296b2253dfd6fe429bfed6a9add56346fada2d5832cd938
-
 name:           composite-aeson-refined
-version:        0.8.2.1
+version:        0.8.2.2
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records

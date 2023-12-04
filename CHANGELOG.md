@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2.2
+
+* Helpers to specialize JsonFields from `a` to `s :-> a`
+* Build modernization to haskell.nix
+* Add default JsonField behavior with `defaultField`
+
 ## 0.8.2.1
 
 * Bumped dependency on hashable
